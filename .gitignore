@@ -1,0 +1,15 @@
+# Local assistant configs
+.claude/
+.codex/
+
+# macOS cruft
+.DS_Store
+
+# Python virtual environments
+fastapi/venv/
+
+# Logs and temp files
+*.log
+logs/
+tmp/
+tmp_* 
