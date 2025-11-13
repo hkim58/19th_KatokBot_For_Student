@@ -30,14 +30,14 @@ var CONFIG = {
     BOT_NAME: "CatBot_Multiturn",
     
     // 🎯 [학생 수정 필수] 봇이 작동할 방 목록
-    TARGET_ROOMS: ["테스트방", "스터디방", "봇테스트"],  // ← 여기를 내 카톡방 이름으로 바꾸세요!
+    TARGET_ROOMS: [],  // ← 여기를 내 카톡방 이름으로 채우세요! (예: ["테스트방"])
     
     // 🎯 [학생 수정 가능] 봇을 호출하는 명령어 (고양이 이름)
     TRIGGER_PREFIX: "루나",  // ← 원하는 고양이 이름으로 변경 가능
     
     // Perplexity API 설정
     API_URL: "https://api.perplexity.ai/chat/completions",
-    API_KEY: "pplx-여기에-실제-API-키-입력",  // 🎯 [학생 수정 필수] 실제 API 키 입력!
+    API_KEY: "",  // 🎯 [학생 수정 필수] 실제 API 키 입력!
     MODEL: "sonar-pro",  // ⛔ 검증된 모델 (변경 금지)
     MAX_RETRIES: 3,  // API 실패 시 재시도 횟수
     TIMEOUT: 15000   // API 타임아웃 (15초)
@@ -149,7 +149,7 @@ var ChatMemory = {
             });
         }
         
-        // 현재 질문 추가
+        // 현재 질문 추가 (아직 세션에 저장되지 않은 새 질문)
         messages.push({ role: "user", content: currentQuery });
         
         Log.d("[" + CONFIG.BOT_NAME + "] 메시지 배열 생성: " + messages.length + "개");
@@ -246,13 +246,10 @@ function callLLM(messages, callback) {
 // ====== 6단계: 응답 생성 함수 ======
 function generateResponse(room, author, query) {
     try {
-        // 1. 사용자 메시지를 메모리에 저장
-        ChatMemory.addMessage(room, author, "user", query);
-        
-        // 2. API용 메시지 배열 생성 (대화 기록 포함)
+        // 1. API용 메시지 배열 생성 (현재 질문은 아직 세션에 저장 안함)
         var messages = ChatMemory.buildMessages(room, author, query);
-        
-        // 3. LLM API 호출 (동기 처리)
+
+        // 2. LLM API 호출 (동기 처리)
         var aiResponse = null;
         var retryCount = 0;
         
@@ -270,12 +267,13 @@ function generateResponse(room, author, query) {
             retryCount++;
         }
         
-        // 4. 응답 확인
+        // 3. 응답 확인
         if (!aiResponse) {
             aiResponse = "미안하다냥... 지금 머리가 복잡해서 대답할 수 없다냥 😿";
         }
         
-        // 5. AI 응답을 메모리에 저장
+        // 4. 이번 턴 대화를 메모리에 저장 (API 응답 후 user → ai 순서 유지)
+        ChatMemory.addMessage(room, author, "user", query);
         ChatMemory.addMessage(room, author, "ai", aiResponse);
         
         return aiResponse;
