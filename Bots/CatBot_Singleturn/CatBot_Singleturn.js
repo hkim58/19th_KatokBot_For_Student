@@ -38,12 +38,12 @@ var bot = BotManager.getCurrentBot();
 var CONFIG = {
     BOT_NAME: "CatBot_Singleturn",
     // 🎯 [학생 수정 필수] 봇이 작동할 방 목록
-    TARGET_ROOMS: ["테스트방", "스터디방", "봇테스트"],  // ← 여기를 내 카톡방 이름으로!
+    TARGET_ROOMS: ["오픈채팅003", "DEBUG ROOM"],  // ← 여기를 내 카톡방 이름으로!
     // 🎯 [학생 수정 가능] 봇을 호출하는 명령어
     TRIGGER_PREFIX: "모카",  // 멀티턴: "루나", 싱글턴: "모카"
     // Perplexity API 설정
     API_URL: "https://api.perplexity.ai/chat/completions",
-    API_KEY: "pplx-여기에-실제-API-키-입력",  // 🎯 [학생 수정 필수] 실제 API 키!
+    API_KEY: "",  // 🎯 [학생 수정 필수] 실제 API 키!
     MODEL: "sonar-pro",  // ⛔ 검증된 모델 (변경 금지)
     MAX_RETRIES: 3,  // API 실패 시 재시도 횟수
     TIMEOUT: 10000   // API 타임아웃 (10초, 멀티턴보다 짧음)

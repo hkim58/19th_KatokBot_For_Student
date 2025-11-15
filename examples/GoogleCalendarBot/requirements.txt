@@ -1,0 +1,24 @@
+# Google Calendar MCP FastAPI 서버 필수 패키지
+
+# FastAPI 및 서버 관련
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-dotenv==1.0.0
+
+# Google Calendar API 관련
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.1.1
+google-api-python-client==2.108.0
+
+# 데이터 처리 및 모델링
+pydantic==2.5.0
+
+# 날짜/시간 처리 (기본 포함되지만 명시)
+python-dateutil==2.8.2
+
+# 로깅 및 디버깅 (개발용)
+colorlog==6.7.0
+
+# HTTP 클라이언트 (테스트용)
+httpx==0.25.2
